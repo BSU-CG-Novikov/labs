@@ -48,7 +48,7 @@ def rgb2hsv(r, g, b):
         }[high]
         h /= 6
 
-    return h, s, v
+    return 360 * h, 100 * s, 100 * v
 
 class ColorApp:
     def __init__(self, master):
@@ -78,9 +78,13 @@ class ColorApp:
         hsv_frame = tk.Frame(self.master)
         hsv_frame.pack(side=tk.LEFT, padx=10, pady=10)
         tk.Label(hsv_frame, text="HSV").pack()
+
         for i, color in enumerate(["Hue", "Saturation", "Value"]):
             tk.Label(hsv_frame, text=color).pack()
-            slider = tk.Scale(hsv_frame, from_=0, to=1, resolution=0.01, variable=self.hsv_vars[i], orient=tk.HORIZONTAL, command=self.update_sliders)
+            if(color == "Hue"):
+                slider = tk.Scale(hsv_frame, from_=0, to=360, resolution=1, variable=self.hsv_vars[i], orient=tk.HORIZONTAL, command=self.update_sliders)
+            else:
+                slider = tk.Scale(hsv_frame, from_=0, to=100, resolution=1, variable=self.hsv_vars[i], orient=tk.HORIZONTAL, command=self.update_sliders)
             slider.pack()
 
         cmyk_frame = tk.Frame(self.master)
@@ -88,7 +92,7 @@ class ColorApp:
         tk.Label(cmyk_frame, text="CMYK").pack()
         for i, color in enumerate(["Cyan", "Magenta", "Yellow", "Black"]):
             tk.Label(cmyk_frame, text=color).pack()
-            slider = tk.Scale(cmyk_frame, from_=0, to=CMYK_SCALE, resolution=0.01, variable=self.cmyk_vars[i], orient=tk.HORIZONTAL, command=self.update_sliders)
+            slider = tk.Scale(cmyk_frame, from_=0, to=CMYK_SCALE, resolution=1, variable=self.cmyk_vars[i], orient=tk.HORIZONTAL, command=self.update_sliders)
             slider.pack()
 
         self.color_preview = tk.Canvas(self.master, width=100, height=100, bg="white")
