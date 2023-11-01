@@ -49,7 +49,7 @@ def detect_lines(image):
     gradient_x, gradient_y = sobel_operators(blurred)
     gradient_magnitude = np.sqrt(gradient_x**2 + gradient_y**2)
     edges = (gradient_magnitude > 100).astype(np.uint8)
-    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=50, minLineLength=100, maxLineGap=10)
+    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=25, minLineLength=10, maxLineGap=10)
     
     if lines is not None:
         for line in lines:
@@ -61,7 +61,7 @@ def detect_lines(image):
 
 def detect_points(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    corners = cv2.goodFeaturesToTrack(gray, maxCorners=100, qualityLevel=0.01, minDistance=10)
+    corners = cv2.goodFeaturesToTrack(gray, maxCorners=750, qualityLevel=0.0001, minDistance=10)
 
     if corners is not None:
         for corner in corners:
